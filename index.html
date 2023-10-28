@@ -16,9 +16,9 @@
     <div class="weather-info" id="weather-info"></div>
 
     <script>
-        // Функція для запиту погоди
+       
         function fetchWeather() {
-            const API_KEY = 'd995c0aad076baacb711ef5ef231e71a'; // Потрібно вставити ваш ключ API з OpenWeatherMap
+            const API_KEY = 'd995c0aad076baacb711ef5ef231e71a'; 
             const CITY = 'Zaporizhia';
             const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}&units=metric`;
 
@@ -43,7 +43,7 @@
                 });
         }
 
-        // Перемикач теми
+      
         const themeSwitch = document.getElementById('theme-switch');
         const themeStyle = document.getElementById('theme-style');
 
@@ -57,7 +57,7 @@
             }
         });
 
-        // Перевірка теми у localStorage при завантаженні сторінки
+       
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             themeSwitch.checked = true;
@@ -66,7 +66,7 @@
             themeStyle.href = 'light-theme.css';
         }
 
-        // Отримати погоду при завантаженні сторінки
+        
         fetchWeather();
     </script>
 </body>
