@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Погода в Запоріжжі</title>
+    <link rel="stylesheet" id="theme-style" href="light-theme.css">
+</head>
+
+<body>
+    <h1>Погода в Запоріжжі</h1>
+
+    <label for="theme-switch">Змінити тему:</label>
+    <input type="checkbox" id="theme-switch">
+
+    <div class="weather-info" id="weather-info"></div>
+
+    <script>
+        // Функція для запиту погоди
+        function fetchWeather() {
+            const API_KEY = 'd995c0aad076baacb711ef5ef231e71a'; // Потрібно вставити ваш ключ API з OpenWeatherMap
+            const CITY = 'Zaporizhia';
+            const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}&units=metric`;
+
+            fetch(API_URL)
+                .then(response => response.json())
+                .then(data => {
+                    const weatherInfo = document.getElementById('weather-info');
+
+                    if (data.main && data.main.temp !== undefined && data.wind && data.wind.speed !== undefined) {
+                        weatherInfo.innerHTML = `
+                    <p>Температура: ${data.main.temp}°C</p>
+                    <p>Вітер: ${data.wind.speed} м/с</p>
+                `;
+                    } else {
+                        weatherInfo.innerHTML = 'Неможливо отримати дані про погоду';
+                    }
+                })
+                .catch(error => {
+                    console.log('Помилка отримання погоди', error);
+                    const weatherInfo = document.getElementById('weather-info');
+                    weatherInfo.innerHTML = 'Помилка отримання даних про погоду';
+                });
+        }
+
+        // Перемикач теми
+        const themeSwitch = document.getElementById('theme-switch');
+        const themeStyle = document.getElementById('theme-style');
+
+        themeSwitch.addEventListener('change', () => {
+            if (themeSwitch.checked) {
+                themeStyle.href = 'dark-theme.css';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeStyle.href = 'light-theme.css';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Перевірка теми у localStorage при завантаженні сторінки
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            themeSwitch.checked = true;
+            themeStyle.href = 'dark-theme.css';
+        } else {
+            themeStyle.href = 'light-theme.css';
+        }
+
+        // Отримати погоду при завантаженні сторінки
+        fetchWeather();
+    </script>
+</body>
+
+</html>
